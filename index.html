@@ -3,36 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Sonho Real Artes</title>
+    <title>Catálogo - Sonho Real Artes</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 90px; /* espaço para o botão fixo */
-            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden; /* Evita rolagem da página inteira */
         }
-        .container {
+
+        /* Container Principal do Carrossel */
+        .carousel-container {
+            position: relative;
             width: 100%;
-            max-width: 600px; /* tamanho ideal para leitura mobile */
+            height: calc(100% - 90px); /* Desconta espaço do botão fixo */
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-        .container img {
-            width: 100%;
-            height: auto;
-            display: block;
+
+        /* Área onde as imagens ficam alinhadas */
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.3s ease-out; /* Velocidade da animação */
+            will-change: transform;
         }
+
+        /* Estilo de cada slide (página) */
+        .carousel-slide {
+            min-width: 100%; /* Cada slide ocupa 100% da largura do container */
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ajusta a imagem sem distorcer */
+            user-select: none; /* Impede seleção da imagem ao deslizar */
+        }
+
+        /* Setas de Navegação (Desktop) */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 30px;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+            transition: background-color 0.2s;
+        }
+
+        .carousel-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .btn-prev {
+            left: 20px;
+        }
+
+        .btn-next {
+            right: 20px;
+        }
+
+        /* Esconde as setas no mobile (opcional, já que funciona no swipe) */
+        @media (max-width: 768px) {
+            .carousel-btn {
+                padding: 10px;
+                font-size: 20px;
+            }
+        }
+
+        /* Botão Fixo do WhatsApp */
         .whatsapp-btn {
             position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
             background-color: #25D366;
             color: #ffffff;
             padding: 14px 28px;
@@ -43,39 +106,103 @@
             box-shadow: 0px 4px 12px rgba(0,0,0,0.4);
             z-index: 1000;
             text-align: center;
-            white-space: nowrap;
-        }
-        .whatsapp-btn:hover {
-            background-color: #1ebe57;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Altere/replique a lista abaixo conforme a quantidade exata de páginas que você possui -->
-        <img src="pagina-01.jpg" alt="Página 1">
-        <img src="pagina-02.jpg" alt="Página 2">
-        <img src="pagina-03.jpg" alt="Página 3">
-        <img src="pagina-04.jpg" alt="Página 4">
-        <img src="pagina-05.jpg" alt="Página 5">
-        <img src="pagina-06.jpg" alt="Página 6">
-        <img src="pagina-07.jpg" alt="Página 7">
-        <img src="pagina-08.jpg" alt="Página 8">
-        <img src="pagina-09.jpg" alt="Página 9">
-        <img src="pagina-10.jpg" alt="Página 10">
-        <img src="pagina-11.jpg" alt="Página 11">
-        <img src="pagina-12.jpg" alt="Página 12">
-        <img src="pagina-13.jpg" alt="Página 13">
-        <img src="pagina-14.jpg" alt="Página 14">
-        <img src="pagina-15.jpg" alt="Página 15">
+    <div class="carousel-container" id="carousel">
+        
+        <!-- Setas -->
+        <button class="carousel-btn btn-prev" id="prevBtn">&#10094;</button>
+        <button class="carousel-btn btn-next" id="nextBtn">&#10095;</button>
+
+        <!-- Trilha de Imagens (Ajuste aqui se tiver mais ou menos que 15 páginas) -->
+        <div class="carousel-track" id="track">
+            <div class="carousel-slide"><img src="pagina-01.jpg" alt="Página 1" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-02.jpg" alt="Página 2" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-03.jpg" alt="Página 3" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-04.jpg" alt="Página 4" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-05.jpg" alt="Página 5" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-06.jpg" alt="Página 6" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-07.jpg" alt="Página 7" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-08.jpg" alt="Página 8" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-09.jpg" alt="Página 9" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-10.jpg" alt="Página 10" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-11.jpg" alt="Página 11" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-12.jpg" alt="Página 12" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-13.jpg" alt="Página 13" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-14.jpg" alt="Página 14" draggable="false"></div>
+            <div class="carousel-slide"><img src="pagina-15.jpg" alt="Página 15" draggable="false"></div>
+        </div>
     </div>
 
-    <!-- Subsitua o número 5575999999999 pelo seu WhatsApp real com DDD (com 55 na frente) -->
-    <a href="https://wa.me/5575988368012?text=Olá!%20Vim%20pelo%20catálogo%20e%20gostaria%20de%20tirar%20uma%20dúvida." 
+    <!-- Subsitua o número 5575999999999 pelo seu WhatsApp real -->
+    <a href="https://wa.me/5575988368012?text=Olá!%20Vim%20pelo%20catálogo%20Sonho%20Real%20e%20gostaria%20de%20tirar%20uma%20dúvida." 
        class="whatsapp-btn" target="_blank">
        💬 Fazer Pedido no WhatsApp
     </a>
 
+    <script>
+        const track = document.getElementById('track');
+        const slides = Array.from(track.children);
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const carousel = document.getElementById('carousel');
+
+        let currentIndex = 0;
+
+        // Função para mover o carrossel para o slide específico
+        function moveToSlide(index) {
+            // Garante que o index fique dentro dos limites
+            if (index < 0) {
+                currentIndex = slides.length - 1; // Vai para o último
+            } else if (index >= slides.length) {
+                currentIndex = 0; // Volta para o primeiro
+            } else {
+                currentIndex = index;
+            }
+            
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            track.style.transform = 'translateX(-' + (slideWidth * currentIndex) + 'px)';
+        }
+
+        // Eventos dos botões de Seta
+        nextBtn.addEventListener('click', e => {
+            moveToSlide(currentIndex + 1);
+        });
+
+        prevBtn.addEventListener('click', e => {
+            moveToSlide(currentIndex - 1);
+        });
+
+        // Responsividade: recalculcar a largura ao mudar o tamanho da janela
+        window.addEventListener('resize', () => moveToSlide(currentIndex));
+
+        // --- Suporte a Gesto de Deslizar (Touch) ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carousel.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            const swipeThreshold = 50; // Mínimo de pixels para considerar um deslize
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Deslizou para a esquerda (próximo)
+                moveToSlide(currentIndex + 1);
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Deslizou para a direita (anterior)
+                moveToSlide(currentIndex - 1);
+            }
+        }
+    </script>
 </body>
 </html>
